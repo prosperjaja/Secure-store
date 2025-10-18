@@ -1,7 +1,7 @@
 import { AuthWrapper } from "@/src/components/auth/auth-wrapper";
 import { SignIn } from "@/src/components/auth/sign-in/sign-in";
 
-export default function Home() {
+const SignInPage = () => {
   return (
     <AuthWrapper
       description="Access your dashboard, 
@@ -11,4 +11,6 @@ commodities in real time."
       form={<SignIn />}
     />
   );
-}
+};
+
+export default SignInPage;
