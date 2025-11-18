@@ -1,81 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import {
-  Wallet,
-  Category2,
-  Receipt1,
-  Buildings2,
-  WalletRemove,
-  MoneyTime,
-  Setting2,
-} from "iconsax-reactjs";
 import { WhiteLogo } from "./icons";
 import Link from "next/link";
 import clsx from "clsx";
+import { useAuth } from "../../contexts/auth-context";
+import { getNavigationForRole } from "../../config/navigation";
+import { UserRole } from "../../types/auth";
 
 export const Sidebar = () => {
   const pathname = usePathname();
+  const { user } = useAuth();
 
-  const clientSidebarItems = [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-      icon: Category2,
-    },
-    {
-      label: "Receipt Manangement",
-      href: "/receipt-management",
-      icon: Receipt1,
-    },
-    {
-      label: "Commodity Management",
-      href: "/commodity-management",
-      icon: Buildings2,
-    },
-    {
-      label: "Take a Loan",
-      href: "/loan",
-      icon: Wallet,
-    },
-    {
-      label: "Request Withdrawal",
-      href: "/request-withdrawal",
-      icon: WalletRemove,
-    },
-    {
-      label: "Reports",
-      href: null,
-      children: [
-        // {
-        //   label: "Storage Reports",
-        //   href: "/storage-reports",
-        //   icon: Chart2,
-        // },
-        {
-          label: "Transaction Reports",
-          href: "/transaction-reports",
-          icon: MoneyTime,
-        },
-      ],
-    },
-    {
-      label: "Account",
-      href: null,
-      children: [
-        // {
-        //   label: "Profile",
-        //   href: "/profile",
-        //   icon: User,
-        // },
-        {
-          label: "Settings",
-          href: "/settings",
-          icon: Setting2,
-        },
-      ],
-    },
-  ];
+  // Get navigation items based on user role, default to client if no user
+  const sidebarItems = getNavigationForRole(user?.role || UserRole.CLIENT);
 
   return (
     <aside className="min-w-[220px] h-full p-4 flex flex-col overflow-auto gap-4 bg-[#182E67]">
@@ -83,7 +21,7 @@ export const Sidebar = () => {
         <WhiteLogo width="100" height="50" />
       </header>
       <nav className="flex flex-col gap-2">
-        {clientSidebarItems.map((item, idx) => (
+        {sidebarItems.map((item, idx) => (
           <div key={idx} className="flex flex-col gap-1">
             {item.href && (
               <Link

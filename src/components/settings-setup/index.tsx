@@ -10,16 +10,27 @@ import { ProfilePhoto } from "./profile-photo";
 import { PasswordSettings } from "./password-settings";
 import { IdCard } from "./id-card";
 import { Edit2, User } from "iconsax-reactjs";
+import { useAuth } from "../../contexts/auth-context";
+import { getRoleDisplayName } from "../../types/auth";
 
 type MainTabValue = "profile" | "password";
 type ProfileTabValue = "edit" | "profile-photo";
 
 export const SettingsSetup = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const [activeMainTab, setActiveMainTab] = useState<MainTabValue>("profile");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [activeProfileTab, setActiveProfileTab] =
     useState<ProfileTabValue>("edit");
+
+  // Default values if user is not loaded
+  const firstName = user?.firstName || "John";
+  const lastName = user?.lastName || "Doe";
+  const email = user?.email || "johndoe@gmail.com";
+  const phoneNumber = user?.phoneNumber || "0806537565443";
+  const userId = user?.id || "CLIENT-001";
+  const userRole = user?.role ? getRoleDisplayName(user.role) : "Client/Depositor";
 
   const mainTabs = [
     { value: "profile" as MainTabValue, label: "Profile" },
@@ -117,7 +128,7 @@ export const SettingsSetup = () => {
                           <span className="text-sm font-medium text-[#101828] w-40">
                             First name
                           </span>
-                          <span className="text-sm text-[#667085]">John</span>
+                          <span className="text-sm text-[#667085]">{firstName}</span>
                         </div>
 
                         {/* Last Name */}
@@ -125,7 +136,7 @@ export const SettingsSetup = () => {
                           <span className="text-sm font-medium text-[#101828] w-40">
                             Last name
                           </span>
-                          <span className="text-sm text-[#667085]">Doe</span>
+                          <span className="text-sm text-[#667085]">{lastName}</span>
                         </div>
 
                         {/* Email Address */}
@@ -134,7 +145,7 @@ export const SettingsSetup = () => {
                             Email address
                           </span>
                           <span className="text-sm text-[#667085]">
-                            Johndoe@gmail.com
+                            {email}
                           </span>
                         </div>
 
@@ -153,7 +164,7 @@ export const SettingsSetup = () => {
                             Phone Number
                           </span>
                           <span className="text-sm text-[#667085]">
-                            0806537565443
+                            {phoneNumber}
                           </span>
                         </div>
                       </div>
@@ -162,12 +173,12 @@ export const SettingsSetup = () => {
                     {/* ID Card Section */}
                     <div>
                       <IdCard
-                        firstName="John"
-                        lastName="Doe"
-                        email="Johndoe@gmail.com"
-                        phone="+234 803 456 7890"
-                        clientId="CLIENT-001"
-                        role="Client/Depositor"
+                        firstName={firstName}
+                        lastName={lastName}
+                        email={email}
+                        phone={phoneNumber}
+                        clientId={userId}
+                        role={userRole}
                         validUntil="31 Dec 2024"
                       />
                     </div>

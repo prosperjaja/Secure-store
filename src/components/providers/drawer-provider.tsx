@@ -1,10 +1,12 @@
 import { Drawer } from "@mantine/core";
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 export interface IDrawerContext {
   setDrawerState: React.Dispatch<React.SetStateAction<IDrawerState>>;
   drawerState: IDrawerState;
   close: () => void;
+  openDrawer: (config: Omit<IDrawerState, "opened">) => void;
+  closeDrawer: () => void;
   size?: number;
 }
 
@@ -18,6 +20,14 @@ interface IDrawerState {
 }
 
 export const DrawerContext = createContext<IDrawerContext | null>(null);
+
+export const useDrawerContext = () => {
+  const context = useContext(DrawerContext);
+  if (!context) {
+    throw new Error("useDrawerContext must be used within DrawerProvider");
+  }
+  return context;
+};
 const initialvalues = {
   opened: false,
   component: null,
@@ -29,8 +39,20 @@ function DrawerProvider({ children }: { children: ReactNode }) {
   const close = () => {
     setDrawerState(initialvalues);
   };
+
+  const openDrawer = (config: Omit<IDrawerState, "opened">) => {
+    setDrawerState({
+      ...config,
+      opened: true,
+    });
+  };
+
+  const closeDrawer = () => {
+    setDrawerState(initialvalues);
+  };
+
   return (
-    <DrawerContext.Provider value={{ setDrawerState, close, drawerState }}>
+    <DrawerContext.Provider value={{ setDrawerState, close, drawerState, openDrawer, closeDrawer }}>
       <Drawer.Root
         opened={drawerState.opened}
         onClose={close}

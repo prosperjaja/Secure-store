@@ -4,9 +4,23 @@ import { Avatar, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { LogoutCurve, User } from "iconsax-reactjs";
 import Link from "next/link";
+import { useAuth } from "../../contexts/auth-context";
+import { getUserFullName } from "../../types/auth";
+import { useRouter } from "next/navigation";
 
 export const HeaderMenu = () => {
   const [opened, { toggle }] = useDisclosure(false);
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/sign-in");
+  };
+
+  // Default values if user is not loaded
+  const displayName = user ? getUserFullName(user) : "Guest User";
+  const displayEmail = user?.email || "guest@example.com";
 
   return (
     <Menu
@@ -25,10 +39,10 @@ export const HeaderMenu = () => {
           <Avatar color="blue" size="sm" radius="xl" />
           <span className="flex flex-col">
             <p className="text-[#172d71] text-[14px] font-medium leading-3">
-              John Doe
+              {displayName}
             </p>
             <p className="text-[#172d71] text-[12px] font-medium">
-              john.doe@example.com
+              {displayEmail}
             </p>
           </span>
         </div>
@@ -45,7 +59,7 @@ export const HeaderMenu = () => {
             </Link>
           </span>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item onClick={handleLogout}>
           <span className="flex items-center gap-2">
             <LogoutCurve size={18} color="#172d71" />
             <span className="text-[#172d71] text-[14px] font-medium">

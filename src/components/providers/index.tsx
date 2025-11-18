@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalsProvider } from "@mantine/modals";
 import { Toaster } from "sonner";
 import { theme } from "../ui/theme";
+import { AuthProvider } from "../../contexts/auth-context";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = React.useState(
@@ -24,15 +25,17 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme}>
-        <ModalsProvider>
-          <DrawerProvider>
-            <RouteProgress />
-            <Toaster visibleToasts={6} theme="dark" position="bottom-right" />
-            {children}
-          </DrawerProvider>
-        </ModalsProvider>
-      </MantineProvider>
+      <AuthProvider>
+        <MantineProvider theme={theme}>
+          <ModalsProvider>
+            <DrawerProvider>
+              <RouteProgress />
+              <Toaster visibleToasts={6} theme="dark" position="bottom-right" />
+              {children}
+            </DrawerProvider>
+          </ModalsProvider>
+        </MantineProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };
