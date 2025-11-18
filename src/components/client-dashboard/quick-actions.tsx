@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 
 const systemStatus = [
   {
-    label: "Commodity Withdrawn",
+    label: "Total Deposits",
     value: "100 MT",
   },
   {
-    label: "Loan Repayment",
+    label: "Total Withdrawals",
     value: "100 MT",
   },
 ];

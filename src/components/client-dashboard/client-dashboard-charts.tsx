@@ -112,7 +112,7 @@ export const ClientDashboardCharts = () => {
         <div className="flex items-center justify-between gap-4">
           <span className="flex flex-col">
             <h3 className="text-lg font-medium text-[#0E1C43]">
-              Portfolio Performance
+              Activity Trend
             </h3>
             <h3 className="text-xl font-bold text-[#0E1C43] leading-4">
               NGN 12.7K
