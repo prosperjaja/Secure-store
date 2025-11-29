@@ -5,6 +5,8 @@ import { RegisteredReceiptsTable } from "./registered-receipts-table";
 import { TextInput, Menu } from "@mantine/core";
 import { SearchNormal1, ArrowDown2 } from "iconsax-reactjs";
 import { Button } from "../ui/mantine/button";
+import { useDrawerContext } from "../providers/drawer-provider";
+import { DepositCommodityForm } from "../commodity-deposit/deposit-commodity-form";
 
 // Mock data
 const mockReceipts = [
@@ -121,8 +123,21 @@ const mockReceipts = [
 ];
 
 export const WarehouseManagerCommodityDashboard = () => {
+  const { openDrawer, closeDrawer } = useDrawerContext();
+
   const handleNewDeposit = () => {
-    console.log("New deposit clicked");
+    openDrawer({
+      component: (
+        <DepositCommodityForm
+          onClose={closeDrawer}
+          onSuccess={() => {
+            // Optionally refresh the receipts table here
+            console.log("Receipt generated successfully!");
+          }}
+        />
+      ),
+      size: "70%",
+    });
   };
 
   return (

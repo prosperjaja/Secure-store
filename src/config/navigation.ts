@@ -140,18 +140,13 @@ export const tenantAdminNavigation: NavItem[] = [
     icon: Category2,
   },
   {
-    label: "User Management",
-    href: "/users",
-    icon: People,
-  },
-  {
-    label: "Client Management",
-    href: "/clients",
+    label: "Managers",
+    href: "/managers",
     icon: People,
   },
   {
     label: "Warehouse Management",
-    href: "/warehouses",
+    href: "/warehouse-management",
     icon: Buildings2,
   },
   {
@@ -159,21 +154,7 @@ export const tenantAdminNavigation: NavItem[] = [
     href: "/receipt-management",
     icon: Receipt1,
   },
-  {
-    label: "Commodity Management",
-    href: "/commodity-management",
-    icon: Buildings2,
-  },
-  {
-    label: "Loan Management",
-    href: "/loans",
-    icon: Wallet,
-  },
-  {
-    label: "Withdrawal Management",
-    href: "/withdrawals",
-    icon: WalletRemove,
-  },
+
   {
     label: "Reports",
     href: null,
@@ -182,16 +163,6 @@ export const tenantAdminNavigation: NavItem[] = [
         label: "Transaction Reports",
         href: "/transaction-reports",
         icon: MoneyTime,
-      },
-      {
-        label: "Financial Reports",
-        href: "/financial-reports",
-        icon: Money,
-      },
-      {
-        label: "Inventory Reports",
-        href: "/inventory-reports",
-        icon: Chart,
       },
     ],
   },

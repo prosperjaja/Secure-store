@@ -9,6 +9,7 @@ import { DepositCommodityForm } from "./deposit-commodity-form";
 import { RequestWithdrawalSetup } from "../request-withdrawal/request-withdrawal-setup";
 import { LoanSetup } from "../loan/loan-setup";
 import { TradeCommoditySetup } from "../trade-commodity/trade-commodity-setup";
+import { useSearchParams } from "next/navigation";
 
 interface ClientHeaderProps {
   client: ClientDetails;
@@ -16,14 +17,12 @@ interface ClientHeaderProps {
 
 export const ClientHeader = ({ client }: ClientHeaderProps) => {
   const { openDrawer, closeDrawer } = useDrawerContext();
+  const managerId = useSearchParams()?.get("managerId");
 
   const handleDeposit = () => {
     openDrawer({
       component: (
-        <DepositCommodityForm
-          clientName={client.name}
-          onClose={closeDrawer}
-        />
+        <DepositCommodityForm clientName={client.name} onClose={closeDrawer} />
       ),
       size: "60%",
     });
@@ -95,26 +94,28 @@ export const ClientHeader = ({ client }: ClientHeaderProps) => {
             Action needed
           </Button>
 
-          <Menu shadow="md" width="target">
-            <Menu.Target>
-              <Button
-                variant="outline"
-                classNames={{
-                  root: "!border-[#D0D5DD] !rounded-lg !h-10 !px-4 !flex !items-center !gap-4",
-                }}
-              >
-                Perform transaction
-                <ArrowDown2 size={16} color="#667085" />
-              </Button>
-            </Menu.Target>
+          {!managerId && (
+            <Menu shadow="md" width="target">
+              <Menu.Target>
+                <Button
+                  variant="outline"
+                  classNames={{
+                    root: "!border-[#D0D5DD] !rounded-lg !h-10 !px-4 !flex !items-center !gap-4",
+                  }}
+                >
+                  Perform transaction
+                  <ArrowDown2 size={16} color="#667085" />
+                </Button>
+              </Menu.Target>
 
-            <Menu.Dropdown>
-              <Menu.Item onClick={handleDeposit}>Deposit</Menu.Item>
-              <Menu.Item onClick={handleWithdrawal}>Withdrawal</Menu.Item>
-              <Menu.Item onClick={handleTrade}>Trade</Menu.Item>
-              <Menu.Item onClick={handleLoan}>Take a loan</Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+              <Menu.Dropdown>
+                <Menu.Item onClick={handleDeposit}>Deposit</Menu.Item>
+                <Menu.Item onClick={handleWithdrawal}>Withdrawal</Menu.Item>
+                <Menu.Item onClick={handleTrade}>Trade</Menu.Item>
+                <Menu.Item onClick={handleLoan}>Take a loan</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          )}
         </div>
         {/* Additional Info */}
         <div className="text-sm text-[#667085] flex justify-end items-end gap-1">

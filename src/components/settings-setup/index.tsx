@@ -11,9 +11,13 @@ import { PasswordSettings } from "./password-settings";
 import { IdCard } from "./id-card";
 import { Edit2, User } from "iconsax-reactjs";
 import { useAuth } from "../../contexts/auth-context";
-import { getRoleDisplayName } from "../../types/auth";
+import { getRoleDisplayName, UserRole } from "../../types/auth";
+import { PreferenceSettings } from "./tenant-admin/preference-settings";
+import { GradingSettings } from "./tenant-admin/grading-settings";
+import { StorageFeeSettings } from "./tenant-admin/storage-fee-settings";
+import { ApprovalSettings } from "./tenant-admin/approval-settings";
 
-type MainTabValue = "profile" | "password";
+type MainTabValue = "profile" | "password" | "preference" | "grading" | "storage-fee" | "approval";
 type ProfileTabValue = "edit" | "profile-photo";
 
 export const SettingsSetup = () => {
@@ -32,10 +36,23 @@ export const SettingsSetup = () => {
   const userId = user?.id || "CLIENT-001";
   const userRole = user?.role ? getRoleDisplayName(user.role) : "Client/Depositor";
 
-  const mainTabs = [
+  const isTenantAdmin = user?.role === UserRole.TENANT_ADMIN;
+
+  const baseTabs = [
     { value: "profile" as MainTabValue, label: "Profile" },
     { value: "password" as MainTabValue, label: "Password" },
   ];
+
+  const tenantAdminTabs = [
+    { value: "profile" as MainTabValue, label: "Profile" },
+    { value: "password" as MainTabValue, label: "Password" },
+    { value: "preference" as MainTabValue, label: "Preference" },
+    { value: "grading" as MainTabValue, label: "Grading" },
+    { value: "storage-fee" as MainTabValue, label: "Storage fee" },
+    { value: "approval" as MainTabValue, label: "Approval" },
+  ];
+
+  const mainTabs = isTenantAdmin ? tenantAdminTabs : baseTabs;
 
   return (
     <div className="flex-1 flex flex-col overflow-auto bg-[#F9FAFB]">
@@ -231,6 +248,30 @@ export const SettingsSetup = () => {
           {activeMainTab === "password" && (
             <div className="p-6">
               <PasswordSettings />
+            </div>
+          )}
+
+          {activeMainTab === "preference" && isTenantAdmin && (
+            <div className="p-6">
+              <PreferenceSettings />
+            </div>
+          )}
+
+          {activeMainTab === "grading" && isTenantAdmin && (
+            <div className="p-6">
+              <GradingSettings />
+            </div>
+          )}
+
+          {activeMainTab === "storage-fee" && isTenantAdmin && (
+            <div className="p-6">
+              <StorageFeeSettings />
+            </div>
+          )}
+
+          {activeMainTab === "approval" && isTenantAdmin && (
+            <div className="p-6">
+              <ApprovalSettings />
             </div>
           )}
         </div>
